@@ -1,108 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>MySQL笔记 | 星球调查笔记</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="基本概念简介和mySQL的安装配置 基本概念介绍 数据库的作用 常用的数据库 关系型数据库和非关系型数据库 关于SQL   MySQL的安装和配置 SQL语法 数据库表   SQL语句分类 DQL和DML语句 select 关键字 distinct where子句 and和or order by   insert into update delete top子句 like子句 in betw">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"liuhsin233.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="基本概念简介 基本概念介绍 数据库的作用 常用的数据库 关系型数据库和非关系型数据库 关于SQL     MySQL的安装和配置 SQL语法 数据库表 SQL语句分类 关于注释   DQL和DML语句 select 关键字 distinct where子句 and和or order by   insert into update delete top子句 like子句 in between">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL笔记">
 <meta property="og:url" content="https://liuhsin233.github.io/2021/03/27/MySQL%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="星球调查笔记">
-<meta property="og:description" content="基本概念简介和mySQL的安装配置 基本概念介绍 数据库的作用 常用的数据库 关系型数据库和非关系型数据库 关于SQL   MySQL的安装和配置 SQL语法 数据库表   SQL语句分类 DQL和DML语句 select 关键字 distinct where子句 and和or order by   insert into update delete top子句 like子句 in betw">
+<meta property="og:description" content="基本概念简介 基本概念介绍 数据库的作用 常用的数据库 关系型数据库和非关系型数据库 关于SQL     MySQL的安装和配置 SQL语法 数据库表 SQL语句分类 关于注释   DQL和DML语句 select 关键字 distinct where子句 and和or order by   insert into update delete top子句 like子句 in between">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-27T08:42:42.000Z">
-<meta property="article:modified_time" content="2022-01-06T12:55:01.694Z">
+<meta property="article:modified_time" content="2022-01-06T13:43:16.056Z">
 <meta property="article:author" content="LiuHsin">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="星球调查笔记" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<link rel="canonical" href="https://liuhsin233.github.io/2021/03/27/MySQL%E7%AC%94%E8%AE%B0/">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-<meta name="generator" content="Hexo 5.3.0"></head>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">星球调查笔记</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">我一定要尽快调查明白,这落后星球魅力何在</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://liuhsin233.github.io"></form>
-      </div>
+  <title>MySQL笔记 | 星球调查笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-MySQL笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/27/MySQL%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-03-27T08:42:42.000Z" itemprop="datePublished">2021-03-27</time>
-</a>
-    
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">星球调查笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">我一定要尽快调查明白,这落后星球魅力何在</p>
   </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      MySQL笔记
-    </h1>
-  
 
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liuhsin233.github.io/2021/03/27/MySQL%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="LiuHsin">
+      <meta itemprop="description" content="不愿染是与非,怎料事与愿违">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="星球调查笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-27 16:42:42" itemprop="dateCreated datePublished" datetime="2021-03-27T16:42:42+08:00">2021-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-06 21:43:16" itemprop="dateModified" datetime="2022-01-06T21:43:16+08:00">2022-01-06</time>
+              </span>
+
+          
+
+        </div>
       </header>
+
     
-    <div class="e-content article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <!-- toc -->
 
 <ul>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E7%AE%80%E4%BB%8B%E5%92%8Cmysql%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">基本概念简介和mySQL的安装配置</a><ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E7%AE%80%E4%BB%8B">基本概念简介</a><ul>
 <li><a href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D">基本概念介绍</a><ul>
 <li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BD%9C%E7%94%A8">数据库的作用</a></li>
 <li><a href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93">常用的数据库</a></li>
@@ -110,12 +206,15 @@
 <li><a href="#%E5%85%B3%E4%BA%8Esql">关于SQL</a></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a href="#mysql%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE">MySQL的安装和配置</a></li>
 <li><a href="#sql%E8%AF%AD%E6%B3%95">SQL语法</a><ul>
 <li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8">数据库表</a></li>
+<li><a href="#sql%E8%AF%AD%E5%8F%A5%E5%88%86%E7%B1%BB">SQL语句分类</a><ul>
+<li><a href="#%E5%85%B3%E4%BA%8E%E6%B3%A8%E9%87%8A">关于注释</a></li>
 </ul>
 </li>
-<li><a href="#sql%E8%AF%AD%E5%8F%A5%E5%88%86%E7%B1%BB">SQL语句分类</a></li>
 <li><a href="#dql%E5%92%8Cdml%E8%AF%AD%E5%8F%A5">DQL和DML语句</a><ul>
 <li><a href="#select">select</a><ul>
 <li><a href="#%E5%85%B3%E9%94%AE%E5%AD%97-distinct">关键字 distinct</a></li>
@@ -142,7 +241,7 @@
 </ul>
 <!-- tocstop -->
 
-<h1><span id="基本概念简介和mysql的安装配置">基本概念简介和mySQL的安装配置</span></h1><h2><span id="基本概念介绍">基本概念介绍</span></h2><h3><span id="数据库的作用">数据库的作用</span></h3><p>DataBase(DB)用来存放和管理数据</p>
+<h1><span id="基本概念简介">基本概念简介</span></h1><h2><span id="基本概念介绍">基本概念介绍</span></h2><h3><span id="数据库的作用">数据库的作用</span></h3><p>DataBase(DB)用来存放和管理数据</p>
 <ol>
 <li>数据共享</li>
 <li>减少数据冗余(每个应用不需要单独存放数据)</li>
@@ -163,8 +262,8 @@
 <li>非关系型数据库(NoSQL) 存储格式灵活(不支持SQL查询语句)</li>
 </ol>
 <h3><span id="关于sql">关于SQL</span></h3><p>结构化查询语言(Structured Query Language),简称SQL 访问标准数据库的标准计算机语言</p>
-<h2><span id="mysql的安装和配置">MySQL的安装和配置</span></h2><h2><span id="sql语法">SQL语法</span></h2><p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/sql/index.asp">SQL语法</a>对于不同的SQL数据库可能有各自的私有拓展,但是都支持SQL标准</p>
-<h3><span id="数据库表">数据库表</span></h3><p>关系型数据库以二维表方式存放数据,一个数据库中通常包含一个或者多个表</p>
+<h1><span id="mysql的安装和配置">MySQL的安装和配置</span></h1><h1><span id="sql语法">SQL语法</span></h1><p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/sql/index.asp">SQL语法</a>对于不同的SQL数据库可能有各自的私有拓展,但是都支持SQL标准</p>
+<h2><span id="数据库表">数据库表</span></h2><p>关系型数据库以二维表方式存放数据,一个数据库中通常包含一个或者多个表</p>
 <p><strong>Persons</strong></p>
 <table>
 <thead>
@@ -271,8 +370,11 @@
 <td>从数据库中查询数据</td>
 </tr>
 </tbody></table>
-</li>
+<h3><span id="关于注释">关于注释</span></h3></li>
 </ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 单行注释,不能换行</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 这种是多行注释</span></span><br><span class="line"><span class="comment"> 可以任意行</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
 <h2><span id="dql和dml语句">DQL和DML语句</span></h2><h3><span id="select">select</span></h3><p>作用 从表格中选取数据,结果存放在结果表(也称为结果集)<br><strong>语句使用格式 <code>select 列名 from 表名</code></strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 如果需要选取多个列则用逗号隔开</span></span><br><span class="line"><span class="keyword">select</span> ID,姓名 <span class="keyword">from</span> Persons</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果需要选取所有列可以直接使用*</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons</span><br></pre></td></tr></table></figure>
 <h4><span id="关键字-distinct">关键字 distinct</span></h4><p>在选取的时候 可能存在重复的值,可以加上distinct这个关键字来避免重复<br><strong>避免重复 <code>select distinct 列名 from 表名</code></strong></p>
@@ -319,8 +421,9 @@
 </tbody></table>
 <p><code>select * from Persons where ID=2</code><br><code>select * from Persons where 名字=&#39;张三&#39;</code><br>对于条件中如果是数值则不需要加单引号,如果是文本(字符或者字符串)则需要用单引号括起来(大部分也支持双引号)</p>
 <h4><span id="and和or">and和or</span></h4><p>用于组合where子句的条件<br><code>select * from Persons where (ID&gt;2 and ID&lt;4) or 名字=&#39;李四&#39;</code></p>
-<h4><span id="order-by">order by</span></h4><p>按照某一列对结果进行升序排序<br>按照id升序排序<code>select * from Persons order by ID</code><br>如果想要降序使用关键字<strong>desc</strong> ,升序关键字<strong>asc</strong>(默认升序)<br>按照ID降序,按照名字升序<code>select * from Persons order by ID desc,名字 asc</code></p>
-<h3><span id="insert-into">insert into</span></h3><p>用于在指定表格中插入一条记录<br>插入一条完整的记录<br><code>insert into Persons values(20,&#39;赵六&#39;,17,&#39;长沙&#39;)</code><br>如果是不完整的记录(某些信息为空)<br><code>insert into Persons(ID,名字) value(21,&#39;孙七&#39;)</code></p>
+<h4><span id="order-by">order by</span></h4><p>按照某一列对结果进行升序排序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">order by 可以将查询到的结果按照升序或者降序排列,搭配关键字asc和desc使用</span></span><br><span class="line"><span class="comment">asc 升序(默认,可省略)</span></span><br><span class="line"><span class="comment">desc 降序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">-- 按照id升序排列(省略了asc)</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">order</span> <span class="keyword">by</span> ID</span><br><span class="line"><span class="comment">-- 按照id降序排列</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">order</span> <span class="keyword">by</span> ID <span class="keyword">desc</span></span><br><span class="line"><span class="comment">-- 按照id降序,然后按照名字升序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">order</span> <span class="keyword">by</span> ID <span class="keyword">desc</span>,名字 <span class="keyword">asc</span></span><br></pre></td></tr></table></figure>
+<h3><span id="insert-into">insert into</span></h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">insert into 用于在指定表格中插入一条记录</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">-- 如果是一条完整的数据,那么注意value后面的几个值要和表中的字段一一对应</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Persons <span class="keyword">value</span>(<span class="number">20</span>,<span class="string">&#x27;赵六&#x27;</span>,<span class="number">17</span>,<span class="string">&#x27;长沙&#x27;</span>)</span><br><span class="line"><span class="comment">-- 如果不是一条完整的数据,那么在表名后面加上你要插入的列名,value后面的几个值和列名一一对应</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Persons(ID,名字) <span class="keyword">value</span>(<span class="number">21</span>,<span class="string">&#x27;孙七&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <h3><span id="update">update</span></h3><p>用于修改表中的数据<br><strong>格式 <code>update 表名 set 列名=新值 where 条件</code></strong><br>修改一行的若干列<code>update Persons set 年龄=17,城市=&#39;武汉&#39; where 名字=&#39;孙七&#39;</code></p>
 <h3><span id="delete">delete</span></h3><p>用于删除表中的一条记录<br><strong>格式 <code>delete from 表名 where 条件</code></strong><br>删除表中的一行 <code>delete from Persons where 名字=&#39;孙七&#39;</code><br>如果想要删除表中的所有行 <code>delete from Persons</code>或者<code>delete * from Persons</code></p>
 <h3><span id="top子句">top子句</span></h3><p>规定需要返回的语句的条目数<br>对于不同的数据库系统top子句不一定支持</p>
@@ -434,113 +537,190 @@
 </tr>
 </tbody></table>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="https://liuhsin233.github.io/2021/03/27/MySQL%E7%AC%94%E8%AE%B0/" data-id="cky2z6k2r00006kuj71tkagbh" data-title="MySQL笔记" class="article-share-link">分享</a>
-      
-      
-      
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/21/%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86/" rel="prev" title="工具整理">
+      <i class="fa fa-chevron-left"></i> 工具整理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/10/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/" rel="next" title="MySQL学习笔记03">
+      MySQL学习笔记03 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">基本概念简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据库的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.2.</span> <span class="nav-text">常用的数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.3.</span> <span class="nav-text">关系型数据库和非关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.4.</span> <span class="nav-text">关于SQL</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">MySQL的安装和配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">SQL语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.1.</span> <span class="nav-text">数据库表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.2.</span> <span class="nav-text">SQL语句分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.2.1.</span> <span class="nav-text">关于注释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.3.</span> <span class="nav-text">DQL和DML语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.1.</span> <span class="nav-text">select</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">关键字 distinct</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">where子句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">and和or</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.3.1.4.</span> <span class="nav-text">order by</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.2.</span> <span class="nav-text">insert into</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.3.</span> <span class="nav-text">update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.4.</span> <span class="nav-text">delete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.5.</span> <span class="nav-text">top子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.6.</span> <span class="nav-text">like子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.7.</span> <span class="nav-text">in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.8.</span> <span class="nav-text">between</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.4.</span> <span class="nav-text">DDL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.4.1.</span> <span class="nav-text">数据类型</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">LiuHsin</p>
+  <div class="site-description" itemprop="description">不愿染是与非,怎料事与愿违</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LiuHsin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2021/02/21/%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">工具整理</div>
-    </a>
-  
-</nav>
 
   
-</article>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
-    </div>
-  </div>
+<script src="/js/schemes/muse.js"></script>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/03/27/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/21/%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86/">工具整理</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+<script src="/js/next-boot.js"></script>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 LiuHsin<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
 
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>

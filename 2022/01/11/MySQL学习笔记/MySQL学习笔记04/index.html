@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"liuhsin233.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="DQL语句 select distinct where between like in   top   insert into update delete      DQL语句Persons    id name age city    1 张三 19 武汉   2 李四 18 北京   3 王五 20 广州   4 赵六 22 北京   5 孙七 20 武汉   select作用: 从表格">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记04">
+<meta property="og:url" content="https://liuhsin233.github.io/2022/01/11/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/index.html">
+<meta property="og:site_name" content="星球调查笔记">
+<meta property="og:description" content="DQL语句 select distinct where between like in   top   insert into update delete      DQL语句Persons    id name age city    1 张三 19 武汉   2 李四 18 北京   3 王五 20 广州   4 赵六 22 北京   5 孙七 20 武汉   select作用: 从表格">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-11T09:08:31.000Z">
+<meta property="article:modified_time" content="2022-01-11T13:36:07.131Z">
+<meta property="article:author" content="LiuHsin">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://liuhsin233.github.io/2022/01/11/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MySQL学习笔记04 | 星球调查笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">星球调查笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">我一定要尽快调查明白,这落后星球魅力何在</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liuhsin233.github.io/2022/01/11/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="LiuHsin">
+      <meta itemprop="description" content="不愿染是与非,怎料事与愿违">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="星球调查笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL学习笔记04
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-11 17:08:31 / 修改时间：21:36:07" itemprop="dateCreated datePublished" datetime="2022-01-11T17:08:31+08:00">2022-01-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- toc -->
+
+<ul>
+<li><a href="#dql%E8%AF%AD%E5%8F%A5">DQL语句</a><ul>
+<li><a href="#select">select</a><ul>
+<li><a href="#distinct">distinct</a></li>
+<li><a href="#where">where</a><ul>
+<li><a href="#between">between</a></li>
+<li><a href="#like">like</a></li>
+<li><a href="#in">in</a></li>
+</ul>
+</li>
+<li><a href="#top">top</a></li>
+</ul>
+</li>
+<li><a href="#insert-into">insert into</a></li>
+<li><a href="#update">update</a></li>
+<li><a href="#delete">delete</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="dql语句">DQL语句</span></h1><p><strong>Persons</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>age</th>
+<th>city</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>张三</td>
+<td>19</td>
+<td>武汉</td>
+</tr>
+<tr>
+<td>2</td>
+<td>李四</td>
+<td>18</td>
+<td>北京</td>
+</tr>
+<tr>
+<td>3</td>
+<td>王五</td>
+<td>20</td>
+<td>广州</td>
+</tr>
+<tr>
+<td>4</td>
+<td>赵六</td>
+<td>22</td>
+<td>北京</td>
+</tr>
+<tr>
+<td>5</td>
+<td>孙七</td>
+<td>20</td>
+<td>武汉</td>
+</tr>
+</tbody></table>
+<h2><span id="select">select</span></h2><p>作用: 从表格中选取数据,结果放入结果表(也称作结果集)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用格式 select 列名 from 表名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果需要查询多列的话,那么需要用逗号隔开</span></span><br><span class="line"><span class="keyword">select</span> id,name <span class="keyword">from</span> Persons</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果需要查询所有列的话,可以直接使用*</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons</span><br></pre></td></tr></table></figure>
+<p><code>select id,name from Persons</code>这个查询得到的结果集如下</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>张三</td>
+</tr>
+<tr>
+<td>2</td>
+<td>李四</td>
+</tr>
+<tr>
+<td>3</td>
+<td>王五</td>
+</tr>
+<tr>
+<td>4</td>
+<td>赵六</td>
+</tr>
+<tr>
+<td>5</td>
+<td>孙七</td>
+</tr>
+</tbody></table>
+<h3><span id="distinct">distinct</span></h3><p>查询过程中如果想要去除重复值,使用distinct</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用格式 select distinct 列名 from 表名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询所有人员的城市</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> city <span class="keyword">from</span> Persons</span><br></pre></td></tr></table></figure>
+<h3><span id="where">where</span></h3><p>用于有条件在表中选取数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用格式 select 列名 from 表名 where 条件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询表中年龄为20的人员数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> age <span class="operator">=</span> <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果有多个条件使用and和or连接</span></span><br><span class="line"><span class="comment">-- 查询所有年龄大于18小于23的人员数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> age <span class="operator">&gt;</span><span class="number">18</span> <span class="keyword">and</span> age <span class="operator">&lt;</span><span class="number">23</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果比较的依据不是数值类型(比如说城市是不是在武汉),字符串类型的话需要用单引号括起来(大部分用双引号也是可以的)</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> city <span class="operator">=</span> <span class="string">&#x27;武汉&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>下面这些是可以在where子句中使用的操作符</p>
+<table>
+<thead>
+<tr>
+<th align="center">操作符</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">=</td>
+<td align="left">等于</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;</td>
+<td align="left">不等于,有些SQL中可以写成!=</td>
+</tr>
+<tr>
+<td align="center">&gt;</td>
+<td align="left">大于</td>
+</tr>
+<tr>
+<td align="center">&lt;</td>
+<td align="left">小于</td>
+</tr>
+<tr>
+<td align="center">&gt;=</td>
+<td align="left">大于等于</td>
+</tr>
+<tr>
+<td align="center">&lt;=</td>
+<td align="left">小于等于</td>
+</tr>
+<tr>
+<td align="center">between</td>
+<td align="left">在某个范围内</td>
+</tr>
+<tr>
+<td align="center">like</td>
+<td align="left">搜索某种模式</td>
+</tr>
+</tbody></table>
+<h4><span id="between">between</span></h4><p>指定范围</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询所有年龄在18到23之间的人员数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">18</span> <span class="keyword">and</span> <span class="number">23</span> <span class="comment">-- 其实就相当于 age &gt;=18 and age &lt;=23</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果想要查询年龄不在18到23这个区间的人员数据,可以使用not</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> age <span class="keyword">not</span> <span class="keyword">between</span> <span class="number">18</span> <span class="keyword">and</span> <span class="number">23</span></span><br></pre></td></tr></table></figure>
+<h4><span id="like">like</span></h4><p>用来查找指定条件的语句(匹配字符串)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询所有名字为N开头的人员数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> name <span class="keyword">like</span> <span class="string">&#x27;N%&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">上面的&#x27;N%&#x27;中,单引号是因为字符串要用单引号括起来,N%中的%是通配符,表示任意个字符</span></span><br><span class="line"><span class="comment">意思是N后面加上任意个字符都是可以匹配上的,比如&#x27;Nick&#x27; &#x27;Ni&#x27;,但是&#x27;LNi&#x27;这种就不会匹配</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th align="center">通配符</th>
+<th align="left">作用</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">%</td>
+<td align="left">替换一个或者多个字符</td>
+<td align="center"><code>%lon%</code></td>
+</tr>
+<tr>
+<td align="center">_</td>
+<td align="left">替换一个字符</td>
+<td align="center"><code>_uck</code></td>
+</tr>
+<tr>
+<td align="center">[字符表]</td>
+<td align="left">表示表中的任意一个字符</td>
+<td align="center"><code>[lf]uck</code></td>
+</tr>
+<tr>
+<td align="center">[^字符表]或者[!字符表]</td>
+<td align="left">表示不在表中的任意一个字符</td>
+<td align="center"><code>[!123]</code>或者<code>[^123]</code></td>
+</tr>
+</tbody></table>
+<h4><span id="in">in</span></h4><p>允许查找的时候指定多个值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用格式  select 列名 from 表名 where 列名 in (value1,value2)</span></span><br><span class="line"><span class="comment">-- 多个匹配值用逗号隔开,支持字符串和数值类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询所有在长沙和武汉的人员数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> city <span class="keyword">in</span> (<span class="string">&#x27;长沙&#x27;</span>,<span class="string">&#x27;武汉&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3><span id="top">top</span></h3><p>规定需要返回的语句条目数,不同数据库系统不一定支持top</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SQL Server</span></span><br><span class="line"><span class="comment">-- 格式 select top number|percent 列名 from 表名</span></span><br><span class="line"><span class="comment">-- 选取最前面的50条数据</span></span><br><span class="line"><span class="keyword">select</span> top <span class="number">50</span> <span class="operator">*</span> <span class="keyword">from</span> Persons</span><br><span class="line"><span class="comment">-- 选取前50%数据</span></span><br><span class="line"><span class="keyword">select</span> top <span class="number">50</span> <span class="keyword">percent</span> <span class="operator">*</span> <span class="keyword">from</span> Persons</span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL</span></span><br><span class="line"><span class="comment">-- 格式 select 列名 from 表名 limit number</span></span><br><span class="line"><span class="comment">-- 选取前50条数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons limit <span class="number">50</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- Oracle</span></span><br><span class="line"><span class="comment">-- 格式 select 列名 from 表名 where rownum &lt;= number</span></span><br><span class="line"><span class="comment">-- 选取前50条数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> rownum <span class="operator">&lt;=</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+
+<h2><span id="insert-into">insert into</span></h2><p>用于在指定表格中插入一条数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 格式 insert into 表名(列1,列2,列3) value(值1,值2,值3)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果是一条完整的数据,那么注意value后面的几个值要和表中的字段一一对应,表名后面可以省略列名</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Persons <span class="keyword">value</span>(<span class="number">20</span>,<span class="string">&#x27;赵六&#x27;</span>,<span class="number">17</span>,<span class="string">&#x27;长沙&#x27;</span>)</span><br><span class="line"><span class="comment">-- 如果不是一条完整的数据,那么在表名后面加上你要插入的列名,value后面的几个值和列名一一对应</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Persons(id,name) <span class="keyword">value</span>(<span class="number">21</span>,<span class="string">&#x27;孙七&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h2><span id="update">update</span></h2><p>用于更新表中的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 格式 update 表名 set 列名 = 新值 where 条件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 可以同时修改多个数据,只需要用逗号隔开就行</span></span><br><span class="line">update Persons <span class="keyword">set</span> age <span class="operator">=</span> <span class="number">17</span>,city <span class="operator">=</span> <span class="string">&#x27;武汉&#x27;</span> <span class="keyword">where</span> name <span class="operator">=</span><span class="string">&#x27;孙七&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 这里语句开始变长了,为了好看其实可以考虑多写几行,比如说</span></span><br><span class="line">update Persons</span><br><span class="line"><span class="keyword">set</span> age <span class="operator">=</span> <span class="number">17</span>,city <span class="operator">=</span> <span class="string">&#x27;武汉&#x27;</span></span><br><span class="line"><span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;孙七&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 特别注意下后面的where子句,update会更新所有满足条件的行</span></span><br><span class="line"><span class="comment">-- 上面例子是修改所有叫做孙七的年龄和城市,如果表中有多个孙七,那么所有孙七的数据都会被修改</span></span><br><span class="line"><span class="comment">-- 如果不写where子句,比如下面这种,会修改整个表的所有行</span></span><br><span class="line">update Persons</span><br><span class="line"><span class="keyword">set</span> age <span class="operator">=</span> <span class="number">17</span></span><br></pre></td></tr></table></figure>
+<h2><span id="delete">delete</span></h2><p>用于删除表中的记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 格式 delete from 表名 where 条件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 删除表中所有名为孙七的人员数据</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> Persons <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;孙七&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 删除表中所有数据</span></span><br><span class="line"><span class="keyword">delete</span> <span class="operator">*</span> <span class="keyword">from</span> Persons</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> Persons</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/10/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/" rel="prev" title="MySQL学习笔记02">
+      <i class="fa fa-chevron-left"></i> MySQL学习笔记02
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">DQL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">select</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.1.</span> <span class="nav-text">distinct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.2.</span> <span class="nav-text">where</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">between</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">like</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">in</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.3.</span> <span class="nav-text">top</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">insert into</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">update</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.4.</span> <span class="nav-text">delete</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">LiuHsin</p>
+  <div class="site-description" itemprop="description">不愿染是与非,怎料事与愿违</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LiuHsin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
